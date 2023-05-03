@@ -11,6 +11,11 @@ class App {
     return this._properties;
   }
 
+  get book() {
+    if (!this._book) this._book = SpreadsheetApp.openById(this.properties.APP_BOOK_ID);
+    return this._book;
+  }
+
   /**
    * @type {YandexTracker}
    */
@@ -59,8 +64,25 @@ class App {
       console.log(project.name);
     });
   }
+
+  issueToSheet(issueId) {
+    const data = this.yandexTracker.v2IssueWorklog(issueId);
+    const values = data.map((w) => [w.id, w.issue.display, new Date(w.start), w.duration]);
+    if (values.length) {
+      const sheetName = `IssueWorklog [${issueId}]`;
+      const sheet = this.book.getSheetByName(sheetName) || this.book.insertSheet(sheetName);
+      sheet.clearContents().getRange(1, 1, values.length, values[0].length).setValues(values);
+    }
+  }
 }
 
+/* exported test */
 function test() {
   new App().callApi();
+}
+
+/* exported issueToSheet */
+function issueToSheet() {
+  const issueId = 'WORK-76';
+  new App().issueToSheet(issueId);
 }

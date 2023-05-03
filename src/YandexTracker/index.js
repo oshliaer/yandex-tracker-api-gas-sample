@@ -34,16 +34,20 @@ class YandexTracker {
     });
     return JSON.parse(httpResponse.getContentText());
   }
+
+  /**
+   *
+   * @param {string} issueId
+   * @returns {YandexTracker.IssueWorklog[]}
+   */
+  v2IssueWorklog(issueId) {
+    console.log(this.headers);
+    const httpResponse = UrlFetchApp.fetch(`https://api.tracker.yandex.net/v2/issues/${issueId}/worklog`, {
+      method: 'get',
+      muteHttpExceptions: true,
+      headers: this.headers,
+      contentType: 'application/json',
+    });
+    return JSON.parse(httpResponse.getContentText());
+  }
 }
-
-/*
-
-Host: https://api.tracker.yandex.net
-
-Authorization: OAuth <ваш OAuth-токен> — при доступе по протоколу OAuth 2.0.
-
-Authorization: Bearer <ваш IAM-TOKEN> — при доступе по IAM-токену.
-
-X-Org-ID: <идентификатор организации>
-
-*/
