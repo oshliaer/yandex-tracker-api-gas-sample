@@ -24,7 +24,8 @@ class App {
       const { iamToken } = this.yandexIamToken;
       this._yandexTracker = new YandexTracker({
         iamToken,
-        xOrgID: this.properties.YANDEX_TRACKER_X_ORG_ID,
+        // xOrgID: this.properties.YANDEX_TRACKER_X_ORG_ID,
+        xCloudOrgId: this.properties.YANDEX_TRACKER_X_CLOUD_ORG_ID,
       });
     }
     return this._yandexTracker;
@@ -85,4 +86,11 @@ function test() {
 function issueToSheet() {
   const issueId = 'WORK-76';
   new App().issueToSheet(issueId);
+}
+
+/* exported deleteWorklog */
+function deleteWorklog() {
+  const issueId = 'WORK-166';
+  const worklogId = '234';
+  new App().yandexTracker.v2IssueWorklogDelete(issueId, worklogId);
 }
