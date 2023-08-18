@@ -48,6 +48,21 @@
 
 /**
  * @typedef {{
+ *  comment: string;
+ *  duration: string;
+ * }} YandexTracker.IssueWorklogUpdate
+ */
+
+/**
+ * @typedef {{
+ *  start: string;
+ *  comment: string;
+ *  duration: string;
+ * }} YandexTracker.IssueWorklogCreate
+ */
+
+/**
+ * @typedef {{
  *  self: string;
  *  id: string;
  *  key: string;
@@ -61,4 +76,14 @@
  *  id: string;
  *  display: string;
  * }} YandexTracker.UserBy
+ */
+
+/**
+ * @typedef {{
+ *  filter: {[key: string]: string};
+ *  query: string;
+ *  expand: string;
+ *  keys: string;
+ *  queue: string;
+ * }} YandexTracker.SearchQuery
  */

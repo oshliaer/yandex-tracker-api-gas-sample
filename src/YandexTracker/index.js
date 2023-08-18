@@ -57,6 +57,40 @@ class YandexTracker {
   /**
    *
    * @param {string} issueId
+   * @param {number} worklogId
+   * @param {YandexTracker.IssueWorklogCreate} payload
+   * @returns
+   */
+  v2IssuesWorklogCreate(issueId, payload) {
+    const httpResponse = UrlFetchApp.fetch(`https://api.tracker.yandex.net/v2/issues/${issueId}/worklog`, {
+      method: 'post',
+      muteHttpExceptions: true,
+      headers: this.headers,
+      payload: JSON.stringify(payload),
+    });
+    return JSON.parse(httpResponse.getContentText());
+  }
+
+  /**
+   *
+   * @param {string} issueId
+   * @param {number} worklogId
+   * @param {YandexTracker.IssueWorklogUpdate} payload
+   * @returns
+   */
+  v2IssuesWorklogUpdate(issueId, worklogId, payload) {
+    const httpResponse = UrlFetchApp.fetch(`https://api.tracker.yandex.net/v2/issues/${issueId}/worklog/${worklogId}`, {
+      method: 'patch',
+      muteHttpExceptions: true,
+      headers: this.headers,
+      payload: JSON.stringify(payload),
+    });
+    return JSON.parse(httpResponse.getContentText());
+  }
+
+  /**
+   *
+   * @param {string} issueId
    * @returns {YandexTracker.IssueWorklog[]}
    */
   v2IssueWorklogDelete(issueId, worklogId) {
@@ -67,5 +101,29 @@ class YandexTracker {
       headers: this.headers,
     });
     return httpResponse.getResponseCode === 204;
+  }
+
+  /**
+   *
+   * @param {YandexTracker.SearchQuery} searchQuery
+   * @returns
+   */
+  v2IssuesSearch(searchQuery) {
+    const httpResponse = UrlFetchApp.fetch(`https://api.tracker.yandex.net/v2/issues/_search`, {
+      method: 'post',
+      muteHttpExceptions: true,
+      headers: this.headers,
+      payload: JSON.stringify(searchQuery),
+    });
+    return JSON.parse(httpResponse.getContentText());
+  }
+
+  /**
+   *
+   * @param {Date} date
+   * @returns
+   */
+  toDateTimeString(date) {
+    return Utilities.formatDate(date, Session.getScriptTimeZone(), "YYYY-MM-dd 'T' HH:mm:ss.sss Z").replace(/\s/g, '');
   }
 }
